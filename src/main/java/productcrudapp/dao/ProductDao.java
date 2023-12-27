@@ -22,7 +22,7 @@ public class ProductDao {
 		EntityManager manager = entityManager.createEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 		transaction.begin();
-		manager.persist(product);
+		manager.merge(product);
 		transaction.commit();
 		manager.close();
 	}

@@ -27,13 +27,13 @@ public class MainController {
 		List<Product> product = productService.getAllProduct();
 		System.out.println(product);
 		m.addAttribute("products", product);
-		return "index.jsp";
+		return "index";
 	}
-	
+
 	@RequestMapping("/addproduct")
 	public String addProduct(Model m) {
 		m.addAttribute("title", "Add-Product");
-		return "add-product-form.jsp";
+		return "add-product-form";
 	}
 	@RequestMapping(value = "/handleproduct",method = RequestMethod.POST)
 	public RedirectView handleProduct(@ModelAttribute Product product,HttpServletRequest req) {
@@ -49,4 +49,23 @@ public class MainController {
 		view.setUrl(req.getContextPath()+"/index");
 		return view;
 	}
+	@RequestMapping("/update/{id}")
+	public String updateForm(@PathVariable("id") int id,Model m) {
+		Product product = productService.getProductById(id);
+		m.addAttribute("product", product);
+		return "update-form";
+	}
+	@RequestMapping(value = "/handleUpdateproduct", method = RequestMethod.POST)
+	public RedirectView handleUpdateProduct(@ModelAttribute Product product, HttpServletRequest req) {
+		int productId = product.getId();
+		Product updatedProduct = productService.getProductById(productId);
+		updatedProduct.setName(product.getName());
+		updatedProduct.setDescription(product.getDescription());
+		updatedProduct.setPrice(product.getPrice());
+		productService.updateProduct(updatedProduct);
+		RedirectView view = new RedirectView();
+		view.setUrl(req.getContextPath() + "/index");
+		return view;
+	}
+
 }

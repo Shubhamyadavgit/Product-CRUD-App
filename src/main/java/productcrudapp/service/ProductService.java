@@ -2,8 +2,6 @@ package productcrudapp.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +30,8 @@ public class ProductService {
     public Product getProductById(int id) {
         return productDao.getProductById(id);
     }
+
+	public void updateProduct(Product updatedProduct) {
+		productDao.createProduct(updatedProduct);
+	}
 }
